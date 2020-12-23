@@ -21,3 +21,13 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# IDE folder
+.idea
+
+# Bazel build generated folders
+bazel-bin
+bazel-out
+bazel-bazel-guice-app
+bazel-testlogs
+out
