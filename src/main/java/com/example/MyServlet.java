@@ -18,6 +18,8 @@ import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.StringValue;
+import com.google.cloud.datastore.Query;
+import com.google.cloud.datastore.QueryResults;
 
 @Singleton
 public class MyServlet extends HttpServlet {
@@ -37,7 +39,24 @@ public class MyServlet extends HttpServlet {
     // The default request to /
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getOutputStream().print(greeting);
+
+        Query<Entity> query = Query.newEntityQueryBuilder()
+                .setKind(kind)
+                .build();
+        QueryResults<Entity> results = datastore.run(query);
+
+
+        resp.setContentType("text/html;");
+        resp.getOutputStream().println("<h1>"+greeting+"</h1>");
+        resp.getOutputStream().println("<ul>");
+
+
+        while (results.hasNext()) {
+            Entity entity = results.next();
+            //String message = entity.getString(entity.getKey());
+            resp.getOutputStream().println("<li>" + entity.getKey() + "</li>");
+        }
+        resp.getOutputStream().println("</ul>");
     }
 
     @Override
