@@ -26,7 +26,9 @@ maven_install(
         "com.google.inject:guice:3.0",
         "javax.inject:javax.inject:1",
         "javax.servlet:javax.servlet-api:4.0.1",
-        "com.google.cloud:google-cloud-datastore:1.105.3"
+        "com.google.cloud:google-cloud-datastore:1.105.3",
+        "com.google.flogger:flogger:0.5.1",
+        "com.google.flogger:flogger-system-backend:0.5.1"
     ],
     repositories = [
         "https://jcenter.bintray.com/",

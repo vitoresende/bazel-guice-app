@@ -21,8 +21,12 @@ import com.google.cloud.datastore.StringValue;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 
+// Import FluentLogger
+import com.google.common.flogger.FluentLogger;
+
 @Singleton
 public class MyServlet extends HttpServlet {
+    private static final FluentLogger logger = FluentLogger.forEnclosingClass();
     private String greeting;
 
     // Instantiates a Datastore client
@@ -39,21 +43,18 @@ public class MyServlet extends HttpServlet {
     // The default request to /
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        logger.atInfo().log("-------------> MyServlet doGet <-------------");
 
-        Query<Entity> query = Query.newEntityQueryBuilder()
-                .setKind(kind)
-                .build();
+        Query<Entity> query = Query.newEntityQueryBuilder().setKind(kind).build();
         QueryResults<Entity> results = datastore.run(query);
 
-
         resp.setContentType("text/html;");
-        resp.getOutputStream().println("<h1>"+greeting+"</h1>");
+        resp.getOutputStream().println("<h1>" + greeting + "</h1>");
         resp.getOutputStream().println("<ul>");
-
 
         while (results.hasNext()) {
             Entity entity = results.next();
-            //String message = entity.getString(entity.getKey());
+            // String message = entity.getString(entity.getKey());
             resp.getOutputStream().println("<li>" + entity.getKey() + "</li>");
         }
         resp.getOutputStream().println("</ul>");
@@ -61,6 +62,7 @@ public class MyServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        logger.atInfo().log("-------------> MyServlet doPost <-------------");
         // The name/ID for the new entity
         String name = UUID.randomUUID().toString().replace("-", "");
 

@@ -2,4 +2,4 @@ runtime: java
 env: flex
 handlers:
   - url: /.*
-    script: ./bazel-bin/web-app.war
+    script: web-app.war
