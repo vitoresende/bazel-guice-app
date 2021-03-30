@@ -24,6 +24,10 @@ import com.google.cloud.datastore.QueryResults;
 // Import FluentLogger
 import com.google.common.flogger.FluentLogger;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+
 @Singleton
 public class MyServlet extends HttpServlet {
     private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -48,16 +52,22 @@ public class MyServlet extends HttpServlet {
         Query<Entity> query = Query.newEntityQueryBuilder().setKind(kind).build();
         QueryResults<Entity> results = datastore.run(query);
 
-        resp.setContentType("text/html;");
-        resp.getOutputStream().println("<h1>" + greeting + "</h1>");
-        resp.getOutputStream().println("<ul>");
+        Document document = DocumentHelper.createDocument();
+        Element html = document.addElement("html");
+        Element head = html.addElement("head");
+        head.addElement("title").addText("Bazel Guice App");
+
+        Element body = html.addElement("body");
+        body.addElement("h1").addText(greeting);
+        Element ul = body.addElement("ul");
 
         while (results.hasNext()) {
-            Entity entity = results.next();
-            // String message = entity.getString(entity.getKey());
-            resp.getOutputStream().println("<li>" + entity.getKey() + "</li>");
+            Entity entity = results.next(); // String message
+            ul.addElement("li").addText(entity.getKey().toString());
         }
-        resp.getOutputStream().println("</ul>");
+
+        resp.setContentType("text/html;");
+        resp.getOutputStream().write(document.asXML().getBytes("UTF-8"));
     }
 
     @Override

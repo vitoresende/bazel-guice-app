@@ -28,7 +28,8 @@ maven_install(
         "javax.servlet:javax.servlet-api:4.0.1",
         "com.google.cloud:google-cloud-datastore:1.105.3",
         "com.google.flogger:flogger:0.5.1",
-        "com.google.flogger:flogger-system-backend:0.5.1"
+        "com.google.flogger:flogger-system-backend:0.5.1",
+        "dom4j:dom4j:1.6.1"
     ],
     repositories = [
         "https://jcenter.bintray.com/",
