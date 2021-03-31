@@ -60,7 +60,7 @@ POST https://<appengine-url>.appspot.com/
 We can see, though, the body saved in GCP Datastore.
 ![GCP Data](readme/gcp-datastore.png)
 
-## Running directly on Gcloud
+### Running directly on Gcloud
 
 You can edit and run this application directly from GCP.
 
