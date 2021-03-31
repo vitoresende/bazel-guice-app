@@ -60,6 +60,25 @@ POST https://<appengine-url>.appspot.com/
 We can see, though, the body saved in GCP Datastore.
 ![GCP Data](readme/gcp-datastore.png)
 
+## Running directly on Gcloud
+
+You can edit and run this application directly from GCP.
+
+To deploy it, access your Gcloud environment through Gcloud SDK or Gcloud Shell and clone this repository into it.
+
+Then use the same commands described before to build and deploy the application.
+
+But, before running the Deploy command, copy the war file to the root of application.
+
+The following commands should deploy the application once you're logged in Gcloud SDK or Gcloud Shell:
+```
+git clone https://github.com/vitoresende/bazel-guice-app.git
+cd bazel-guice-app/
+bazel build //:web-app
+cp bazel-bin/web-app.war ./
+gcloud app deploy
+```
+
 ### Build
 
 ```
