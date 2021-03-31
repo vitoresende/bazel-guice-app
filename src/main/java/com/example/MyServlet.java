@@ -21,8 +21,16 @@ import com.google.cloud.datastore.StringValue;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 
+// Import FluentLogger
+import com.google.common.flogger.FluentLogger;
+
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+
 @Singleton
 public class MyServlet extends HttpServlet {
+    private static final FluentLogger logger = FluentLogger.forEnclosingClass();
     private String greeting;
 
     // Instantiates a Datastore client
@@ -39,28 +47,32 @@ public class MyServlet extends HttpServlet {
     // The default request to /
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        logger.atInfo().log("-------------> MyServlet doGet <-------------");
 
-        Query<Entity> query = Query.newEntityQueryBuilder()
-                .setKind(kind)
-                .build();
+        Query<Entity> query = Query.newEntityQueryBuilder().setKind(kind).build();
         QueryResults<Entity> results = datastore.run(query);
 
+        Document document = DocumentHelper.createDocument();
+        Element html = document.addElement("html");
+        Element head = html.addElement("head");
+        head.addElement("title").addText("Bazel Guice App");
 
-        resp.setContentType("text/html;");
-        resp.getOutputStream().println("<h1>"+greeting+"</h1>");
-        resp.getOutputStream().println("<ul>");
-
+        Element body = html.addElement("body");
+        body.addElement("h1").addText(greeting);
+        Element ul = body.addElement("ul");
 
         while (results.hasNext()) {
-            Entity entity = results.next();
-            //String message = entity.getString(entity.getKey());
-            resp.getOutputStream().println("<li>" + entity.getKey() + "</li>");
+            Entity entity = results.next(); // String message
+            ul.addElement("li").addText(entity.getKey().toString());
         }
-        resp.getOutputStream().println("</ul>");
+
+        resp.setContentType("text/html;");
+        resp.getOutputStream().write(document.asXML().getBytes("UTF-8"));
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        logger.atInfo().log("-------------> MyServlet doPost <-------------");
         // The name/ID for the new entity
         String name = UUID.randomUUID().toString().replace("-", "");
 

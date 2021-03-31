@@ -10,6 +10,9 @@ java_war(
         "@maven//:javax_inject_javax_inject",
         "@maven//:javax_servlet_javax_servlet_api",
         "@maven//:com_google_cloud_google_cloud_datastore",
-        "@maven//:com_google_guava_guava"
+        "@maven//:com_google_guava_guava",
+        "@maven//:com_google_flogger_flogger",
+        "@maven//:com_google_flogger_flogger_system_backend",
+        "@maven//:dom4j_dom4j"
     ],
 )
